@@ -61,9 +61,6 @@ wikimedia-streaming/
 │   ├── datasource.yml             # InfluxDB datasource provisioning
 │   └── dashboards/
 │       └── wikimedia.json         # Exportable Grafana dashboard
-├── docker-compose.yml             # Kafka + Zookeeper + InfluxDB + Grafana
-├── .gitignore
-├── LICENSE
 └── README.md
 ```
 
@@ -74,9 +71,9 @@ wikimedia-streaming/
 | Tool | Version tested | Notes |
 |---|---|---|
 | Java | 8 or 11 | Required for Kafka, Flume, and Spark |
-| Apache Kafka | 3.x | Includes Zookeeper |
+| Apache Kafka | 2.5.x | Includes Zookeeper |
 | Apache Flume | 1.11.x | With Kafka sink JAR on classpath |
-| Apache Spark | 3.4.x | With `spark-sql-kafka` package |
+| Apache Spark | 3.1.x | With `spark-sql-kafka` package |
 | Python | 3.9+ | For the PySpark job |
 | InfluxDB | 1.8.x | Uses the v1 API (`influxdb` Python client) |
 | Grafana | 10.x | |
