@@ -1,0 +1,13 @@
+apiVersion: 1
+
+datasources:
+  - name: Wikimedia
+    type: influxdb
+    access: proxy
+    url: http://localhost:8086
+    database: wikimedia
+    uid: Ar5eoXbDz                 # (optional)
+    isDefault: true
+    editable: true
+    jsonData:
+      httpMode: GET
