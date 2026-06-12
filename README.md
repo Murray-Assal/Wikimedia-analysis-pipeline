@@ -61,6 +61,8 @@ wikimedia-streaming/
 │   ├── datasource.yml             # InfluxDB datasource provisioning
 │   └── dashboards/
 │       └── wikimedia.json         # Exportable Grafana dashboard
+├── .gitignore
+├── LICENSE
 └── README.md
 ```
 
@@ -68,17 +70,18 @@ wikimedia-streaming/
 
 ## Prerequisites
 
+All components are installed directly on the VM. Ensure the following are present before running the pipeline:
+
 | Tool | Version tested | Notes |
 |---|---|---|
-| Java | 8 or 11 | Required for Kafka, Flume, and Spark |
-| Apache Kafka | 2.5.x | Includes Zookeeper |
-| Apache Flume | 1.11.x | With Kafka sink JAR on classpath |
-| Apache Spark | 3.1.x | With `spark-sql-kafka` package |
+| Java | 8 or 11 | Required by Kafka, Flume, and Spark |
+| Apache Zookeeper | 3.x | Managed as a systemd service |
+| Apache Kafka | 3.x | Managed as a systemd service |
+| Apache Flume | 1.11.x | Kafka sink JAR must be on the Flume classpath |
+| Apache Spark | 3.4.x | Installed standalone; uses `spark-sql-kafka` package at submit time |
 | Python | 3.9+ | For the PySpark job |
-| InfluxDB | 1.8.x | Uses the v1 API (`influxdb` Python client) |
-| Grafana | 10.x | |
-
-> **Docker alternative:** A `docker-compose.yml` is provided that starts Kafka, Zookeeper, InfluxDB, and Grafana automatically. You still need Flume and Spark installed locally.
+| InfluxDB | 1.8.x | Uses the v1 HTTP API (`influxdb` Python client) |
+| Grafana | 10.x | Managed as a systemd service |
 
 ---
 
@@ -91,17 +94,20 @@ git clone https://github.com/your-username/wikimedia-streaming.git
 cd wikimedia-streaming
 ```
 
-### 2. Start infrastructure (Docker)
+### 2. Start the required services
 
 ```bash
-docker-compose up -d
+sudo systemctl start zookeeper
+sudo systemctl start kafka
+sudo systemctl start influxdb
+sudo systemctl start grafana-server
 ```
 
-This starts:
-- Zookeeper on `localhost:2181`
-- Kafka broker on `localhost:9092`
-- InfluxDB on `localhost:8086`
-- Grafana on `localhost:3000` (admin / admin)
+Verify they are all running:
+
+```bash
+sudo systemctl status zookeeper kafka influxdb grafana-server
+```
 
 ### 3. Create the Kafka topic
 
