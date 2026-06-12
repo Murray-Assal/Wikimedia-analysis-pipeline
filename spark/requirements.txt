@@ -1,0 +1,2 @@
+pyspark==3.1.x
+influxdb==5.3.2
