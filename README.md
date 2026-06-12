@@ -239,11 +239,13 @@ Checkpoints are written to `/tmp/spark_checkpoints/` to allow the job to resume 
 
 The included dashboard (`grafana/dashboards/wikimedia.json`) provides:
 
-- **Edits per minute** — time-series panel broken down by wiki
-- **Bot vs. human edits** — stacked bar chart
-- **Top wikis by edit volume** — table panel
-- **Average edit size (bytes)** — gauge panel
-- **Minor edit ratio** — stat panel
+- **Minor Edit Ratio** — stat panel showing the percentage of edits flagged as minor
+- **Average Length Delta** — gauge showing the average byte change per edit
+- **Live Raw Edits Table** — live scrolling table of raw edit events with title, wiki, user, length delta, and bot flag
+- **Edits per minute (left chart)** — time-series of `edit_stats_1m` summed across all wikis
+- **Edits per minute by wiki (right chart)** — time-series broken down per wiki
+
+![Grafana Dashboard](grafana_dashboard.png)
 
 Import the JSON from Grafana → Dashboards → Import.
 
